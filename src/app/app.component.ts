@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,5 +9,14 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'product-list-with-cart-main-angular';
+  isActived = signal(true)
+
+  activated() {
+    this.isActived.set(false)
+  }
+
+  desactivated() {
+    this.isActived.set(true)
+  }
+
 }
