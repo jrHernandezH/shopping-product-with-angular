@@ -106,6 +106,6 @@ export class ProductsService {
     "price": 6.50
   }]);
 
-  listProducts = this.products.asReadonly;
+  listProducts = this.products.asReadonly();
 
 }

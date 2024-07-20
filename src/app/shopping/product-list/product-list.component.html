@@ -1,1 +1,8 @@
-<p>product-list works!</p>
+<div>
+    <h2 class="text-amber-950 font-bold text-3xl sm:text-4xl">Desserts</h2>
+   <div class="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    @for (product of listOfProducts(); track product.name) {
+        <app-product-item [product]="product"/>
+    }
+   </div>
+</div>

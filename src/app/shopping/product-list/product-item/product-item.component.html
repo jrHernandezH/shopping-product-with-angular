@@ -1,1 +1,23 @@
-<p>product-item works!</p>
+<div class="max-w-sm ">
+    <div class="relative max-w-sm p-4">
+        <img [src]="imgView()" [alt]="imgView()" class="w-full rounded-xl">
+        <button
+            class="w-36 sm:w-1/3 lg:w-36  flex items-center justify-around mx-auto absolute bottom-0 inset-x-0 bg-white py-1.5 px-2 rounded-xl border-orange-200 border">
+            <svg class="w-8 h-5 fill-orange-600">
+                <use href="/assets/images/icon-add-to-cart.svg#icon-add-to-cart"></use>
+            </svg>
+            <span class="text-center">Add to Cart</span>
+        </button>
+    </div>
+    <div class="max-w-full p-4">
+        <span class="text-sm text-orange-900 font-light">
+            {{product().category}}
+        </span>
+        <h3 class="text-base text-amber-900 font-semibold">
+            {{product().name}}
+        </h3>
+        <p class="text-orange-600 font-bold">
+            {{product().price | currency:'USD':'symbol'}}
+        </p>
+    </div>
+</div>
