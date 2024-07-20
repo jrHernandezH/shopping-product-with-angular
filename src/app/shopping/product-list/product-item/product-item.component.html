@@ -1,13 +1,49 @@
 <div class="max-w-sm ">
     <div class="relative max-w-sm p-4">
         <img [src]="imgView()" [alt]="imgView()" class="w-full rounded-xl">
-        <button
-            class="w-36 sm:w-1/3 lg:w-36  flex items-center justify-around mx-auto absolute bottom-0 inset-x-0 bg-white py-1.5 px-2 rounded-xl border-orange-200 border">
+        @if (added()) {
+        <div
+            [class]="{'fade-in': added(), 'fade-out': !added()}"
+            class="w-36 sm:w-2/3 lg:w-36  flex items-center justify-around mx-auto absolute bottom-0 inset-x-0 bg-orange-700 py-1.5 px-2 rounded-xl border-none border">
+
+            <button
+                class="group w-5 h-5 border-2 border-white rounded-full flex items-center justify-center hover:bg-white"
+                (click)="decrement()"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" class="fill-white w-3 group-hover:fill-orange-600"
+                    viewBox="0 0 10 2">
+                    <g id="icon-decrement-quantity">
+                        <path d="M0 .375h10v1.25H0V.375Z" />
+                    </g>
+                </svg>
+            </button>
+
+            <span class="text-white text-center">{{quantity()}}</span>
+
+            <button
+                class="group w-5 h-5 border-2 border-white rounded-full flex items-center justify-center hover:bg-white"
+                (click)="increment()"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" class="fill-white w-3 group-hover:fill-orange-600"
+                    viewBox="0 0 10 10">
+                    <g id="icon-increment-quantity">
+
+                        <path d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z" />
+                    </g>
+
+                </svg>
+            </button>
+        </div>
+
+        }@else {
+        <button (click)="willAdded()"
+            class="w-36 sm:w-2/3 lg:w-36  flex items-center justify-around mx-auto absolute bottom-0 inset-x-0 bg-white py-1.5 px-2 rounded-xl border-orange-200 border">
             <svg class="w-8 h-5 fill-orange-600">
                 <use href="/assets/images/icon-add-to-cart.svg#icon-add-to-cart"></use>
             </svg>
             <span class="text-center">Add to Cart</span>
         </button>
+        }
     </div>
     <div class="max-w-full p-4">
         <span class="text-sm text-orange-900 font-light">

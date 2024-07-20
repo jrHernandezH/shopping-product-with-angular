@@ -1,7 +1,8 @@
-import { Component, computed, inject, input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Product } from '../product.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CurrencyPipe } from '@angular/common';
+import { CartService } from '../../shopping-cart/cart.service';
 @Component({
   selector: 'app-product-item',
   standalone: true,
@@ -11,11 +12,11 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ProductItemComponent implements OnInit {
   product = input.required<Product>();
-
+  cartService = inject(CartService)
   private breakpointObserver = inject(BreakpointObserver);
-
   screenSize?: string;
-
+  added = signal<boolean>(false)
+  quantity = signal<number>(0);
 
   imgView = computed(() => {
     if (this.screenSize === 'desktop') {
@@ -45,8 +46,61 @@ export class ProductItemComponent implements OnInit {
         }
       }
     })
+
+    this.cartService.productsUpdate.subscribe({
+      next: (cart) => {
+        const productInCart = cart.find(item => item.name === this.product.name);
+
+        if (!productInCart) {
+          this.quantity.set(0);
+          this.added.set(false);
+        }
+      }
+    })
+
+    const initialCart = this.cartService.productsViewCart();
+    const productInCart = initialCart.find(item => item.name === this.product().name);
+
+    if (productInCart) {
+      this.quantity.set(productInCart.quantity);
+      this.added.set(true);
+    }
   }
 
+  willAdded() {
+    this.added.set(true);
+    this.quantity.set(1);
+    this.cartService.saveInCartProduct({
+      image: this.product().image.thumbnail,
+      name: this.product().name,
+      price: this.product().price,
+      quantity: this.quantity()
+    })
+
+  }
+
+  decrement() {
+    this.quantity.update((oldVal) => {
+      if (oldVal > 1) {
+        return oldVal - 1
+      } else {
+        this.added.set(false)
+        return oldVal - 1;
+      }
+    })
+
+    this.cartService.decrementQuantity(this.product().name, this.quantity())
+  }
+
+  increment() {
+    this.quantity.update((oldVal) => oldVal + 1)
+    this.cartService.saveInCartProduct({
+      image: this.product().image.thumbnail,
+      name: this.product().name,
+      price: this.product().price,
+      quantity: this.quantity()
+    })
+  }
 
 
 }

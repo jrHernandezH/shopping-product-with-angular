@@ -1,0 +1,39 @@
+<div class="position fixed w-full h-screen bg-black inset-0 bg-opacity-30 grid place-content-center">
+    <div class="bg-white grid gap-5 py-4 px-10">
+        <h3 class="text-3xl font-bold text-orange-900">Order Confirmed</h3>
+        <span class="text-lg  text-gray-600">We Hope you enjoy food!</span>
+        @for (item of productsInCart(); track item.name ){
+            <div class="bg-orange-100 rounded-xl py-2 px-5 grid grid-cols-3 gap-2 items-center origin-centers">
+                <img [src]="item.image" [alt]="item.name" class="rounded-lg">
+                <div class="flex flex-col gap-2">
+                    <h4 class="text-orange-950 font-bold text-xl">
+                        {{item.name}}
+                    </h4>
+                    <div class="flex gap-5 pt-2">
+                        <p class="text-orange-700 font-bold">
+                            {{item.quantity +'x'}}
+                        </p>
+                        <p class=" items-center gap-2">
+                            <span class="font-light text-orange-950">
+                                {{'@'}}
+                            </span>
+                            <span class="text-gray-400 font-semibold">
+                                {{item.price | currency:'USD':'symbol'}}
+                            </span>
+                        </p>
+                    </div>    
+                </div>
+                <p class="text-end font-bold text-xl text-orange-950"> {{item.price * item.quantity | currency: 'USD':'symbol'}} </p>
+            </div>
+        }
+        <div class="max-w-full grid gap-5">
+            <div class=" flex items-center justify-between px-2">
+                <p class=" text-orange-950 opacity-55 font-medium">Order Total</p>
+                <p class="text-2xl font-bold text-orange-950">{{totalOrder() | currency:'USD':'symbol'}}</p>
+            </div>
+            <button (click)="shop()" class="w-full max-h-fit flex items-center justify-center py-4  gap-2 bg-orange-800 text-white font-semibold rounded-full hover:bg-orange-900">
+                Start New Order
+            </button>
+        </div>
+    </div>
+</div>
